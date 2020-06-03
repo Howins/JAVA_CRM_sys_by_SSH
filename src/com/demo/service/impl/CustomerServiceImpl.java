@@ -16,4 +16,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 	}
 
+	public void add(Customer customer) {
+		CustomerDao cd = new CustomerDaoImp();
+	    cd.add(customer);
+
+	}
+
 }

@@ -8,4 +8,6 @@ public interface CustomerDao {
 
 	List<Customer> findAll();
 
+	void add(Customer customer);
+
 }

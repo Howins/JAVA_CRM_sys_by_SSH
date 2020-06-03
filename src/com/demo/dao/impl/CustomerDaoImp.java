@@ -22,4 +22,14 @@ public class CustomerDaoImp implements CustomerDao {
 		return list;
 	}
 
+	public void add(Customer customer) {
+		Session session = HibernateUtils.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+
+		// add customer to DB
+		session.save(customer);
+
+		tx.commit();
+	}
+
 }
