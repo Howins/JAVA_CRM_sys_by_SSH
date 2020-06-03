@@ -7,8 +7,10 @@ import org.apache.struts2.ServletActionContext;
 import com.demo.bean.Customer;
 import com.demo.service.CustomerService;
 import com.demo.service.impl.CustomerServiceImpl;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
 
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer> {
 
@@ -50,7 +52,10 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		// get custmer list from service object
 		List<Customer> list = cs.findAll();
 		// set parameters to page
-		ServletActionContext.getRequest().setAttribute("list", list);
+		//ServletActionContext.getRequest().setAttribute("list", list);
+		//using ognl to fetch the data
+		ValueStack valueStack = ActionContext.getContext().getValueStack();
+		valueStack.set("list", list);
 		return "findAllSuccess";
 	}
 
