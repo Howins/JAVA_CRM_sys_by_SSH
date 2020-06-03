@@ -4,6 +4,13 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<!-- 配置Struts2的常量 -->
-	<constant name="struts.action.extension" value="action"/>
+	<constant name="struts.action.extension" value="action" />
+	<!-- 配置Action -->
+	<package name="crm" extends="struts-default" namespace="/">
+		<action name="customer_*" class="com.demo.web.action.CustomerAction"
+			method="{1}">
+			<result name="findAll">/jsp/customer/list.jsp</result>
+		</action>
+	</package>
 
 </struts>
