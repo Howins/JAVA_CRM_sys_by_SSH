@@ -26,13 +26,15 @@
 			</result>
 
 			<interceptor-ref name="privilegeInterceptor" />
+			<!-- 必须配置默认拦截器，这样才会执行默认的拦截 -->
 			<interceptor-ref name="defaultStack" />
 		</action>
 		<action name="user_*" class="com.demo.web.action.UserAction"
 			method="{1}">
 			<result name="success" type="redirect">/index.jsp</result>
-			
+
 			<interceptor-ref name="privilegeInterceptor">
+				<!-- excludeMethods表示除此以外不执行拦截器 -->
 				<param name="excludeMethods">login</param>
 			</interceptor-ref>
 			<interceptor-ref name="defaultStack" />

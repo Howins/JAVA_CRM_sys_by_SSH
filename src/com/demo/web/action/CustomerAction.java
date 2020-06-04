@@ -3,6 +3,8 @@ package com.demo.web.action;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.demo.bean.Customer;
 import com.demo.service.CustomerService;
@@ -31,8 +33,11 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	 */
 	public String add() {
 		// get the infos from the form sheet by page
-		CustomerService cs = new CustomerServiceImpl();
-		cs.add(customer);
+		//CustomerService cs = new CustomerServiceImpl();
+		//using Spring to create the CustomerService
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CustomerService customerService = (CustomerService) applicationContext.getBean("customerService");
+		customerService.add(customer);
 
 		return "addSuccess";
 	}
@@ -48,9 +53,13 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	 */
 	public String findAll() {
 		// create Service object
-		CustomerService cs = new CustomerServiceImpl();
+		//CustomerService cs = new CustomerServiceImpl();
+		
+		//using Spring 
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CustomerService customerService = (CustomerService) applicationContext.getBean("customerService");
 		// get custmer list from service object
-		List<Customer> list = cs.findAll();
+		List<Customer> list = customerService.findAll();
 		// set parameters to page
 		//ServletActionContext.getRequest().setAttribute("list", list);
 		//using ognl to fetch the data

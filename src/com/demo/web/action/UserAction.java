@@ -1,6 +1,8 @@
 package com.demo.web.action;
 
 import org.apache.struts2.ServletActionContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.demo.bean.User;
 import com.demo.service.UserService;
@@ -21,6 +23,9 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 		// test for get the parameter from the form sheet
 		// System.out.println(user);
 		UserService uService = new UserServiceImpl();
+		//using Spring to get the UserService
+		//ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		//applicationContext.getBean("UserServiceImpl")
 		User existUser = uService.login(user);
 		// according the result to jump different page
 		if (existUser == null) {
