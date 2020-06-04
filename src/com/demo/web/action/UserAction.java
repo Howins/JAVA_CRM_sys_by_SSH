@@ -29,7 +29,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 		} else {
 			// set parameter to page
 			// ActionContext.getContext().getSession().put("user", existUser);
-			ServletActionContext.getRequest().getSession().setAttribute("user", existUser);
+			ServletActionContext.getRequest().getSession().setAttribute("existUser", existUser);
 			return SUCCESS;
 		}
 	}

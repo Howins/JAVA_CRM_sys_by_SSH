@@ -92,7 +92,7 @@ TD {
 												
 												<!-- 使用OGNL 去获取输入内容 -->
 												<s:actionerror/>
-												<s:form action="user_login" namespace="/" method="post">
+												<s:form action="user_login" namespace="/" method="post" target="_parent">
 													<s:textfield label="登录名" name="user_code"/>
 													<s:password label="登录密码" name="user_password"/>
 													<s:textfield label="验证码" />

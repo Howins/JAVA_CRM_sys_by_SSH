@@ -7,18 +7,35 @@
 	<constant name="struts.action.extension" value="action" />
 	<!-- 配置Action -->
 	<package name="crm" extends="struts-default" namespace="/">
+		<!-- 配置拦截器 -->
+		<interceptors>
+			<interceptor name="privilegeInterceptor"
+				class="com.demo.web.interceptor.PrivilegeInterceptor"></interceptor>
+		</interceptors>
+
+		<!-- 如果没有登录，需要有Login出口 配成全局，每个都可以到达这里 -->
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
+
 		<action name="customer_*" class="com.demo.web.action.CustomerAction"
 			method="{1}">
 			<result name="findAllSuccess">/jsp/customer/list.jsp</result>
 			<result name="addUI">/jsp/customer/add.jsp</result>
 			<result name="addSuccess" type="redirectAction">customer_findAll.action
 			</result>
+
+			<interceptor-ref name="privilegeInterceptor" />
+			<interceptor-ref name="defaultStack" />
 		</action>
 		<action name="user_*" class="com.demo.web.action.UserAction"
 			method="{1}">
 			<result name="success" type="redirect">/index.jsp</result>
-			<result name="login">/login.jsp</result>
+			
+			<interceptor-ref name="privilegeInterceptor">
+				<param name="excludeMethods">login</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
 		</action>
 	</package>
-
 </struts>
