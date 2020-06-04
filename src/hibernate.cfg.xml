@@ -39,5 +39,6 @@
 		
 		<!-- 引入映射 -->
 		<mapping resource="com/demo/bean/Customer.hbm.xml"/>
+		<mapping resource="com/demo/bean/User.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
