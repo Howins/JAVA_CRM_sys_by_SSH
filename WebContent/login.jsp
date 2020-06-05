@@ -96,7 +96,8 @@ TD {
 													<s:textfield label="登录名" name="user_code"/>
 													<s:password label="登录密码" name="user_password"/>
 													<s:textfield label="验证码" />
-													<s:submit value="登录系统" src="images/login_button.gif" type="image" align="center"/>
+													<s:submit value="登录系统" src="images/login_button.gif" type="image" align="left"/>
+													<!-- <input value="注册系统" src="images/regist_button.gif" type="image" align="right" onclick="regist_UI"/> -->
 												</s:form>
 											</TD>
 										</TR>

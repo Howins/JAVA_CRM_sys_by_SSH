@@ -14,6 +14,12 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.util.ValueStack;
 
+/**
+ * Customer Managerment class
+ * 
+ * @author Howins
+ *
+ */
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer> {
 
 	/**
@@ -26,6 +32,16 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		return customer;
 	}
 
+	private CustomerService customerService = new CustomerServiceImpl();
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+
 	/**
 	 * Add new Customer to DB
 	 * 
@@ -33,12 +49,10 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	 */
 	public String add() {
 		// get the infos from the form sheet by page
-		//CustomerService cs = new CustomerServiceImpl();
-		//using Spring to create the CustomerService
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CustomerService customerService = (CustomerService) applicationContext.getBean("customerService");
+		// CustomerService cs = new CustomerServiceImpl();
+		// using Spring to create the CustomerService
+		System.out.println("Customer Action 执行了。。。");
 		customerService.add(customer);
-
 		return "addSuccess";
 	}
 
@@ -53,16 +67,14 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	 */
 	public String findAll() {
 		// create Service object
-		//CustomerService cs = new CustomerServiceImpl();
-		
-		//using Spring 
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CustomerService customerService = (CustomerService) applicationContext.getBean("customerService");
+		// CustomerService cs = new CustomerServiceImpl();
+
+		// using Spring
 		// get custmer list from service object
 		List<Customer> list = customerService.findAll();
 		// set parameters to page
-		//ServletActionContext.getRequest().setAttribute("list", list);
-		//using ognl to fetch the data
+		// ServletActionContext.getRequest().setAttribute("list", list);
+		// using ognl to fetch the data
 		ValueStack valueStack = ActionContext.getContext().getValueStack();
 		valueStack.set("list", list);
 		return "findAllSuccess";

@@ -10,4 +10,12 @@ public interface CustomerService {
 
 	void add(Customer customer);
 
+	void update(Customer customer);
+
+	void delete(Customer customer);
+
+	Customer findById(Long cust_id);
+
+	List<Customer> findQBC();
+
 }

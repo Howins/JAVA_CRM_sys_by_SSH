@@ -10,4 +10,12 @@ public interface CustomerDao {
 
 	void add(Customer customer);
 
+	void update(Customer customer);
+
+	void delete(Customer customer);
+
+	List<Customer> findQBC();
+
+	Customer findById(Long cust_id);
+
 }

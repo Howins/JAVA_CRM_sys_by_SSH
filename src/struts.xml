@@ -18,14 +18,14 @@
 			<result name="login">/login.jsp</result>
 		</global-results>
 
-		<action name="customer_*" class="com.demo.web.action.CustomerAction"
+		<action name="customer_*" class="customerAction"
 			method="{1}">
 			<result name="findAllSuccess">/jsp/customer/list.jsp</result>
 			<result name="addUI">/jsp/customer/add.jsp</result>
 			<result name="addSuccess" type="redirectAction">customer_findAll.action
 			</result>
 
-			<interceptor-ref name="privilegeInterceptor" />
+			<!-- <interceptor-ref name="privilegeInterceptor" /> -->
 			<!-- 必须配置默认拦截器，这样才会执行默认的拦截 -->
 			<interceptor-ref name="defaultStack" />
 		</action>

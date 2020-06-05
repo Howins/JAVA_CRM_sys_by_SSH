@@ -1,20 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans 
-	xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-        http://www.springframework.org/schema/beans 
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd"> <!-- bean definitions here -->
 
-	<!-- 配置Service com.demo.service.CustomerService-->
+	<!-- 把Hibernate 交给Spring 管理 -->
+	<!-- 引入Hibernate 的配置 -->
+	<!-- 由Spring 加载生成sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+	</bean>
+
+<!-- 配置UerAction -->
+<!-- <bean id="userAction" class="com.demo.web.action.UserAction" scope="prototype"></bean>
+ -->
+<!-- 配置Service -->
+<!-- <bean id="userService" class="com.demo.service.impl.UserServiceImpl">
+
+</bean> -->
+<!-- 配置Dao -->
+<!-- <bean id="userDao" class="com.demo.dao.impl.UserDaoImpl"></bean> -->
+
+	<!-- 配置Action com.demo.web.action.CustomerAction -->
+	<bean id="customerAction" class="com.demo.web.action.CustomerAction"
+		scope="prototype">
+		<property name="customerService" ref="customerService"></property>
+	</bean>
+
+
+	<!-- 配置Service com.demo.service.CustomerService -->
 	<bean id="customerService" class="com.demo.service.impl.CustomerServiceImpl">
 		<!-- 注入DAO的属性 -->
-		<property name="customerDao" ref="customerDao"/>
+		<property name="customerDao" ref="customerDao" />
 	</bean>
-	
-	<!-- 配置DAO com.demo.dao.impl.CustomerDaoImp-->
+
+	<!-- 配置DAO com.demo.dao.impl.CustomerDaoImp -->
 	<bean id="customerDao" class="com.demo.dao.impl.CustomerDaoImp">
-		
+		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	
+
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<context:annotation-config />
 </beans>

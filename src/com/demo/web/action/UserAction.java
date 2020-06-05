@@ -19,14 +19,24 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 		return user;
 	}
 
+	private UserService userService;
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
 	public String login() {
 		// test for get the parameter from the form sheet
 		// System.out.println(user);
-		UserService uService = new UserServiceImpl();
+		
 		//using Spring to get the UserService
 		//ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		//applicationContext.getBean("UserServiceImpl")
-		User existUser = uService.login(user);
+		User existUser = userService.login(user);
 		// according the result to jump different page
 		if (existUser == null) {
 			this.addActionError("UserName or Password Wrong!!!");

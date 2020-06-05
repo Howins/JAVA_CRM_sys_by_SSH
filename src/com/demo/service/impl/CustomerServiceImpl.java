@@ -4,34 +4,45 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.bean.Customer;
 import com.demo.dao.CustomerDao;
 import com.demo.dao.impl.CustomerDaoImp;
 import com.demo.service.CustomerService;
 
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
+	// add the object and the setter method for Spring
 	private CustomerDao customerDao;
-	
 
 	public void setCustomerDao(CustomerDao customerDao) {
 		this.customerDao = customerDao;
 	}
 
 	public List<Customer> findAll() {
-		// create Dao object for query
-//		CustomerDao cd = new CustomerDaoImp();
-		//using Spring
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CustomerDao customerDao = (CustomerDao) applicationContext.getBean("customerDao");
 		return customerDao.findAll();
-
 	}
 
 	public void add(Customer customer) {
-		CustomerDao cd = new CustomerDaoImp();
-	    cd.add(customer);
+		System.out.println("customerService 执行拉。。。");
+		customerDao.add(customer);
+	}
 
+	public void update(Customer customer) {
+		customerDao.update(customer);
+	}
+
+	public void delete(Customer customer) {
+		customerDao.delete(customer);
+	}
+
+	public Customer findById(Long cust_id) {
+		return customerDao.findById(cust_id);
+	}
+
+	public List<Customer> findQBC() {
+		return customerDao.findQBC();
 	}
 
 }
