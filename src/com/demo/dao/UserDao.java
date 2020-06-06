@@ -6,4 +6,6 @@ public interface UserDao {
 
 	User login(User user);
 
+	boolean regist(User user);
+
 }

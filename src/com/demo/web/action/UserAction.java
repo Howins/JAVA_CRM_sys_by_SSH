@@ -47,6 +47,22 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 			ServletActionContext.getRequest().getSession().setAttribute("existUser", existUser);
 			return SUCCESS;
 		}
+//		return null;
 	}
 
+	public String registUI(){
+		return "registUI";
+	}
+	
+	public String regist(){
+		boolean registResult = userService.regist(user);
+		if(registResult){
+			this.addActionError("注册成功，请登录！！！");
+			return LOGIN;
+		}else{
+			this.addActionError("用户名已存在，请重新注册！！！");
+			return "regist";
+		} 
+	}
+	
 }

@@ -18,16 +18,36 @@
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
 	</bean>
+	
+	<!-- 字典相关的类 -->
+	<!-- 配置UerAction -->
+	<bean id="baseDictAction" class="com.demo.web.action.BaseDictAction"
+		scope="prototype">
+		<property name="baseDictService" ref="baseDictService" />
+	</bean>
+	<!-- 配置Service -->
+	<bean id="baseDictService" class="com.demo.service.impl.BaseDictServiceImpl">
+		<property name="baseDictDao" ref="baseDictDao" />
+	</bean>
+	<!-- 配置Dao -->
+	<bean id="baseDictDao" class="com.demo.dao.impl.BaseDictDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
 
-<!-- 配置UerAction -->
-<!-- <bean id="userAction" class="com.demo.web.action.UserAction" scope="prototype"></bean>
- -->
-<!-- 配置Service -->
-<!-- <bean id="userService" class="com.demo.service.impl.UserServiceImpl">
-
-</bean> -->
-<!-- 配置Dao -->
-<!-- <bean id="userDao" class="com.demo.dao.impl.UserDaoImpl"></bean> -->
+	<!-- 配置UerAction -->
+	<bean id="userAction" class="com.demo.web.action.UserAction"
+		scope="prototype">
+		<property name="userService" ref="userService" />
+	</bean>
+	<!-- 配置Service -->
+	<bean id="userService" class="com.demo.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	<!-- 配置Dao -->
+	<bean id="userDao" class="com.demo.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 
 	<!-- 配置Action com.demo.web.action.CustomerAction -->
 	<bean id="customerAction" class="com.demo.web.action.CustomerAction"

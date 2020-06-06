@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 import com.demo.bean.Customer;
@@ -13,12 +14,6 @@ import com.demo.dao.CustomerDao;
 public class CustomerDaoImp extends HibernateDaoSupport implements CustomerDao {
 
 	public List<Customer> findAll() {
-		// Session session = HibernateUtils.getCurrentSession();
-		// Transaction tx = session.beginTransaction();
-		// query all customer list
-		// List<Customer> list = session.createQuery("from Customer").list();
-
-		// tx.commit();
 		List<Customer> list = (List<Customer>) this.getHibernateTemplate().find("from Customer");
 		return list;
 	}
@@ -43,6 +38,23 @@ public class CustomerDaoImp extends HibernateDaoSupport implements CustomerDao {
 	public List<Customer> findQBC() {
 		DetachedCriteria cri = DetachedCriteria.forClass(Customer.class);
 		return (List<Customer>) this.getHibernateTemplate().findByCriteria(cri);
+	}
+
+	public Integer findRecord(DetachedCriteria detachedCriteria) {
+		// 设置条件，查询所有行的个数（返回记录数）
+		detachedCriteria.setProjection(Projections.rowCount());
+		List<Long> list = (List<Long>) this.getHibernateTemplate().findByCriteria(detachedCriteria);
+		if (list.size() > 0) {
+			return list.get(0).intValue();
+		}
+		return null;
+	}
+
+	public List<Customer> findByPage(DetachedCriteria detachedCriteria, Integer beginRecord, Integer pageSize) {
+		//清空上面记录的限制条件
+		detachedCriteria.setProjection(null);
+		return (List<Customer>) this.getHibernateTemplate().findByCriteria(detachedCriteria, beginRecord, pageSize);
+
 	}
 
 }

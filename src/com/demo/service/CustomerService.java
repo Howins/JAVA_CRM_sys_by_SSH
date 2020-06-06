@@ -2,7 +2,10 @@ package com.demo.service;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+
 import com.demo.bean.Customer;
+import com.demo.bean.PageBean;
 
 public interface CustomerService {
 
@@ -17,5 +20,7 @@ public interface CustomerService {
 	Customer findById(Long cust_id);
 
 	List<Customer> findQBC();
+
+	PageBean<Customer> findByPage(DetachedCriteria detachedCriteria, Integer currPage, Integer pageSize);
 
 }

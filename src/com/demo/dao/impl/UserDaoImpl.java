@@ -29,12 +29,21 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 		// }
 		// tx.commit();
 
-//		List<User> list = (List<User>) this.getHibernateTemplate()
-//				.find("from User where user_code=? and user_password=?", user.getUser_code(), user.getUser_password());
-//		if (list.size() > 0) {
-//			return list.get(0);
-//		}
+		List<User> list = (List<User>) this.getHibernateTemplate().find("from User where user_code=? and user_password=?", user.getUser_code(), user.getUser_password());
+		if (list.size() > 0) {
+			return list.get(0);
+		}
 		return null;
+	}
+
+	public boolean regist(User user) {
+		List<User> list = (List<User>) this.getHibernateTemplate().find("from User where user_code=?", user.getUser_code());
+		if(list.size()>0){
+			return false;
+		}else{
+			this.getHibernateTemplate().save(user);
+			return true;
+		}
 	}
 
 }

@@ -13,10 +13,15 @@
 		
 		<!-- 建立类中的普通的属性和表的字段的对应 -->
 		<property name="cust_name" column="cust_name" length="32" />
-		<property name="cust_source" column="cust_source" length="32"/>
+		<!-- <property name="cust_source" column="cust_source" length="32"/>
 		<property name="cust_industry" column="cust_industry"/>
-		<property name="cust_level" column="cust_level"/>
+		<property name="cust_level" column="cust_level"/> -->
 		<property name="cust_phone" column="cust_phone"/>
 		<property name="cust_mobile" column="cust_mobile"/>
+		
+		<!-- 配置客户对字典多对一的映射 -->
+		<many-to-one name="baseDictSource" column="cust_source" class="com.demo.bean.BaseDict"/>
+		<many-to-one name="baseDictIndustry" column="cust_industry" class="com.demo.bean.BaseDict"/>
+		<many-to-one name="baseDictLevel" column="cust_level" class="com.demo.bean.BaseDict"/>
 	</class>
 </hibernate-mapping>

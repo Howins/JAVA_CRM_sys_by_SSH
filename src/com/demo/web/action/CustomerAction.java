@@ -3,10 +3,12 @@ package com.demo.web.action;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.demo.bean.Customer;
+import com.demo.bean.PageBean;
 import com.demo.service.CustomerService;
 import com.demo.service.impl.CustomerServiceImpl;
 import com.opensymphony.xwork2.ActionContext;
@@ -22,6 +24,16 @@ import com.opensymphony.xwork2.util.ValueStack;
  */
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer> {
 
+	//使用Set方法接收数据
+	private Integer currPage=1;
+	public void setCurrPage(Integer currPage) {
+		this.currPage = currPage;
+	}
+	private Integer pageSize=5;
+	
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 	/**
 	 * the private customer and the getModel method for wrap the data into Model
 	 * by Struts2
@@ -51,7 +63,7 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		// get the infos from the form sheet by page
 		// CustomerService cs = new CustomerServiceImpl();
 		// using Spring to create the CustomerService
-		System.out.println("Customer Action 执行了。。。");
+//		System.out.println(customer);
 		customerService.add(customer);
 		return "addSuccess";
 	}
@@ -66,17 +78,17 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	 * @return
 	 */
 	public String findAll() {
-		// create Service object
-		// CustomerService cs = new CustomerServiceImpl();
 
-		// using Spring
-		// get custmer list from service object
-		List<Customer> list = customerService.findAll();
-		// set parameters to page
-		// ServletActionContext.getRequest().setAttribute("list", list);
-		// using ognl to fetch the data
-		ValueStack valueStack = ActionContext.getContext().getValueStack();
-		valueStack.set("list", list);
+		//接收分页参数
+		//最好使用DetacheCriteria的对象(带分页的条件查询)
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Customer.class);
+		//调用业务层查询
+		PageBean<Customer> pageBean = customerService.findByPage(detachedCriteria,currPage,pageSize);
+
+//		List<Customer> list = customerService.findAll();
+		ActionContext.getContext().getValueStack().push(pageBean);
+//		ValueStack valueStack = ActionContext.getContext().getValueStack();
+//		valueStack.set("list", pageBean.getList());
 		return "findAllSuccess";
 	}
 

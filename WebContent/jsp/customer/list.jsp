@@ -98,9 +98,9 @@
 													style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 													
 													<TD><s:property value="cust_name" /></TD>
-													<TD><s:property value="cust_level" /></TD>
-													<TD><s:property value="cust_source" /></TD>
-													<TD><s:property value="cust_industry" /></TD>
+													<TD><s:property value="baseDictLevel.dict_item_name" /></TD>
+													<TD><s:property value="baseDictSource.dict_item_name" /></TD>
+													<TD><s:property value="baseDictIndustry.dict_item_name" /></TD>
 													<TD><s:property value="cust_phone" /></TD>
 													<TD><s:property value="cust_mobile" /></TD>
 													<TD>

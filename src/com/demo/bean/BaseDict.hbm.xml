@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 建立类与表的映射 -->
+	<class name="com.demo.bean.BaseDict" table="base_dict">
+		<!-- 建立类中的属性与表中的主键对应 ,如果主键名字与属性名字一样，column 不需要写 -->
+		<id name="dict_id" column="dict_id" >
+			<!-- 主键生成策略 -->
+			<generator class="uuid"/>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="dict_type_code" />
+		<property name="dict_type_name" />
+		<property name="dict_item_name" />
+		<property name="dict_item_code" />
+		<property name="dict_sort" />
+		<property name="dict_enable" />
+		<property name="dict_memo" />
+<!-- 字典和客户是一对多的关系，所以查询字典的时候，是不需要查询客户的，只需要配置客户一方面 -->
+	</class>
+</hibernate-mapping>
