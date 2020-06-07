@@ -111,9 +111,9 @@
 																value="baseDictIndustry.dict_item_name" /></TD>
 														<TD><s:property value="cust_phone" /></TD>
 														<TD><s:property value="cust_mobile" /></TD>
-														<TD><a href="${pageContext.request.contextPath }/#">修改</a>
+														<TD><a href="${pageContext.request.contextPath }/customer_edit.action?cust_id=<s:property value="cust_id" />">修改</a>
 															&nbsp;&nbsp; <a
-															href="${pageContext.request.contextPath }/#">删除</a></TD>
+															href="${pageContext.request.contextPath }/customer_delete.action?cust_id=<s:property value="cust_id" />">删除</a></TD>
 														<%-- <TD>${customer.cust_name }</TD>
 													<TD>${customer.cust_level }</TD>
 													<TD>${customer.cust_source }</TD>

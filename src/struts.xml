@@ -5,6 +5,8 @@
 <struts>
 	<!-- 配置Struts2的常量 -->
 	<constant name="struts.action.extension" value="action" />
+	<!-- 配置总上传文件的大小 -->
+	<constant name="struts.multipart.maxSize" value="524880"></constant>
 	<!-- 配置Action -->
 	<package name="crm" extends="struts-default" namespace="/">
 		<!-- 配置拦截器 -->
@@ -25,12 +27,22 @@
 		<action name="customer_*" class="customerAction" method="{1}">
 			<result name="findAllSuccess">/jsp/customer/list.jsp</result>
 			<result name="addUI">/jsp/customer/add.jsp</result>
+			<!-- input 视图，一旦有上传错误，就跑到原来的位置 -->
+			<result name="input">/jsp/customer/add.jsp</result>
+			<result name="editSuccess">/jsp/customer/edit.jsp</result>
 			<result name="addSuccess" type="redirectAction">customer_findAll.action
 			</result>
-
+			<result name="deleteSuccess" type="redirectAction">customer_findAll.action
+			</result>
+			<result name="updateSuccess" type="redirectAction">customer_findAll.action
+			</result>
 			<!-- <interceptor-ref name="privilegeInterceptor" /> -->
 			<!-- 必须配置默认拦截器，这样才会执行默认的拦截 -->
-			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="defaultStack">
+				<!-- 配置拦截器对应单个文件的规范 -->
+				<param name="fileUpload.maximumSize">204800</param>
+				<param name="fileUpload.allowedExtensions">.jpg,.bmp,.png</param>
+			</interceptor-ref>
 		</action>
 		<!-- User的Action -->
 		<action name="user_*" class="userAction" method="{1}">
