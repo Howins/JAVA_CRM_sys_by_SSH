@@ -1,7 +1,10 @@
 package com.demo.web.action;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +14,7 @@ import com.demo.bean.Customer;
 import com.demo.bean.PageBean;
 import com.demo.service.CustomerService;
 import com.demo.service.impl.CustomerServiceImpl;
+import com.demo.utils.UploadUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -27,11 +31,17 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	//使用Set方法接收数据
 	private Integer currPage=1;
 	public void setCurrPage(Integer currPage) {
+		if(currPage==null){
+			this.currPage = 1;
+		}
 		this.currPage = currPage;
 	}
-	private Integer pageSize=5;
+	private Integer pageSize=3;
 	
 	public void setPageSize(Integer pageSize) {
+		if(pageSize==null){
+			this.pageSize=3;
+		}
 		this.pageSize = pageSize;
 	}
 	/**
@@ -46,6 +56,25 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 
 	private CustomerService customerService = new CustomerServiceImpl();
 
+	//文件的名称
+	private String uploadFileName;
+	//文件本身
+	private File upload;
+	//文件内容
+	private String uploadContentType;
+	
+	public void setUploadFileName(String uploadFileName) {
+		this.uploadFileName = uploadFileName;
+	}
+
+	public void setUpload(File upload) {
+		this.upload = upload;
+	}
+
+	public void setUploadContentType(String uploadContentType) {
+		this.uploadContentType = uploadContentType;
+	}
+
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
@@ -58,12 +87,35 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	 * Add new Customer to DB
 	 * 
 	 * @return jump to the list to show the new customer
+	 * @throws IOException 
 	 */
-	public String add() {
+	public String add() throws IOException {
 		// get the infos from the form sheet by page
 		// CustomerService cs = new CustomerServiceImpl();
 		// using Spring to create the CustomerService
 //		System.out.println(customer);
+		
+		//文件上传
+		if(upload!=null){
+			//设置文件上传的路径
+			String path="D:/upload";
+			
+			//如果同名，如何处理？唯一文件名
+			String uuidFileName = UploadUtils.getUuidFileName(uploadFileName);
+			//如果目录过载，需要文件分离
+			String realPath = UploadUtils.getPath(uuidFileName);
+			//文件上传的路径
+			String url = path+realPath;
+			File file = new File(url);
+			if(!file.exists()){
+				//如果目录不存在
+				file.mkdirs();
+			}
+			//文件上传
+			File destFile = new File(url+"/"+uuidFileName);
+			FileUtils.copyFile(upload, destFile);
+			customer.setCust_image(url+"/"+uuidFileName);
+		}
 		customerService.add(customer);
 		return "addSuccess";
 	}

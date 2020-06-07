@@ -50,6 +50,10 @@ public class CustomerServiceImpl implements CustomerService {
 	//业务层查询分类客户的方法:
 	public PageBean<Customer> findByPage(DetachedCriteria detachedCriteria, Integer currPage, Integer pageSize) {
 		PageBean<Customer> pageBean= new PageBean<Customer>();
+		//不知道为什么在Action的设置没有生效，所以这里。。补一刀。。
+		if(currPage==null){
+			currPage = 1;
+		}
 		//封装当前页数，封装页容量（默认配一个）
 		pageBean.setCurrPage(currPage);
 		pageBean.setPageSize(pageSize);

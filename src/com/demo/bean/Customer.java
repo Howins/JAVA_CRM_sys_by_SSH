@@ -22,16 +22,26 @@ public class Customer {
 	 */
 	private String cust_phone;
 	private String cust_mobile;
+	private String cust_image;
 
 	/**
 	 * 由于客户与字典是多对一的关系，需要在多的一方放置1的一方的对象
 	 */
 	private BaseDict baseDictSource;
+
+
 	private BaseDict baseDictIndustry;
 	private BaseDict baseDictLevel;
 
 	public Customer() {
 		super();
+	}
+	public String getCust_image() {
+		return cust_image;
+	}
+	
+	public void setCust_image(String cust_image) {
+		this.cust_image = cust_image;
 	}
 
 	public BaseDict getBaseDictSource() {
