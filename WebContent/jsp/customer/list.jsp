@@ -21,6 +21,32 @@
 		document.customerForm.submit();
 
 	}
+	
+	$(function(){
+		//页面加载，函数就会执行,只要页面加载，就应该查询字典数据
+		$.post("${pageContext.request.contextPath }/basedict_findByTypeCode.action",{"dict_type_code":"002"},function(data){
+			//遍历json,添加数据到option
+			$(data).each(function(i,n){
+				$("#cust_source").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+			});
+			$("#cust_source option[value='${baseDictSource.dict_id}']").prop("selected","selected");
+		},"json");
+		$.post("${pageContext.request.contextPath }/basedict_findByTypeCode.action",{"dict_type_code":"001"},function(data){
+			//遍历json,添加数据到option
+			$(data).each(function(i,n){
+				$("#cust_industry").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+			});
+			$("#cust_industry option[value='${baseDictIndustry.dict_id}']").prop("selected","selected");
+		},"json");
+		$.post("${pageContext.request.contextPath }/basedict_findByTypeCode.action",{"dict_type_code":"006"},function(data){
+			//遍历json,添加数据到option
+			$(data).each(function(i,n){
+				$("#cust_level").append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+			});
+			$("#cust_level option[value='${baseDictLevel.dict_id}']").prop("selected","selected");
+		},"json");
+	});
+
 </SCRIPT>
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
@@ -70,9 +96,21 @@
 											<TBODY>
 												<TR>
 													<TD>客户名称：</TD>
-													<TD><INPUT class=textbox id=sChannel2
-														style="WIDTH: 80px" maxLength=50 name="custName"></TD>
-
+													<TD><input cssClass="textbox"
+															cssStyle="WIDTH: 80px" maxLength="50" name="cust_name" value="<s:property value="cust_name" />" />
+													</TD>
+													<TD>客户级别：</TD>
+													<TD><select id="cust_level"
+														name="baseDictLevel.dict_id">
+															<option value="">-请选择-</option></TD>
+													<TD>客户来源：</TD>
+													<TD><select id="cust_source"
+														name="baseDictSource.dict_id">
+															<option value="">-请选择-</option></TD>
+													<TD>客户所属行业：</TD>
+													<TD><select id="cust_industry"
+														name="baseDictIndustry.dict_id">
+															<option value="">-请选择-</option></TD>
 													<TD><INPUT class=button id=sButton2 type=submit
 														value=" 筛选 " name=sButton2></TD>
 												</TR>
@@ -111,7 +149,8 @@
 																value="baseDictIndustry.dict_item_name" /></TD>
 														<TD><s:property value="cust_phone" /></TD>
 														<TD><s:property value="cust_mobile" /></TD>
-														<TD><a href="${pageContext.request.contextPath }/customer_edit.action?cust_id=<s:property value="cust_id" />">修改</a>
+														<TD><a
+															href="${pageContext.request.contextPath }/customer_edit.action?cust_id=<s:property value="cust_id" />">修改</a>
 															&nbsp;&nbsp; <a
 															href="${pageContext.request.contextPath }/customer_delete.action?cust_id=<s:property value="cust_id" />">删除</a></TD>
 														<%-- <TD>${customer.cust_name }</TD>
@@ -139,11 +178,13 @@
 											<DIV
 												style="LINE-HEIGHT: 20px; HEIGHT: 20px; TEXT-ALIGN: right">
 												共[<B><s:property value="totalRecord" /></B>]条记录,[<B><s:property
-														value="totalPage" /></B>]页 ,每页显示 <select name="pageSize" onchange="to_page()">
+														value="totalPage" /></B>]页 ,每页显示 <select name="pageSize"
+													onchange="to_page()">
 
-													<option value="3" <s:if test="pageSize==3">selected</s:if> >3</option>
+													<option value="3" <s:if test="pageSize==3">selected</s:if>>3</option>
 													<option value="5" <s:if test="pageSize==5">selected</s:if>>5</option>
-													<option value="10" <s:if test="pageSize==10">selected</s:if>>10</option>
+													<option value="10"
+														<s:if test="pageSize==10">selected</s:if>>10</option>
 												</select> 条
 												<s:if test="currPage!=1">
 												[<A href="javascript:to_page(1)">首页</A>]
@@ -162,8 +203,10 @@
 													</s:iterator>
 												</B>&nbsp;&nbsp;
 												<s:if test="currPage!=totalPage">
-												[<A href="javascript:to_page(<s:property value="currPage+1" />)">后一页</A>] 
-												[<A href="javascript:to_page(<s:property value="totalPage" />)">尾页</A>] 
+												[<A
+														href="javascript:to_page(<s:property value="currPage+1" />)">后一页</A>] 
+												[<A
+														href="javascript:to_page(<s:property value="totalPage" />)">尾页</A>] 
 												</s:if>
 												到 <input type="text" size="3" id="page" name="currPage" />
 												页 <input type="button" value="Go" onclick="to_page()" />

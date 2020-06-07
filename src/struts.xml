@@ -21,6 +21,10 @@
 		</global-results>
 
 		<!-- BaseDict的Action -->
+		<action name="linkman_*" class="linkManAction" method="{1}">
+		<result name="findAllSuccess">/jsp/linkman/list.jsp</result>
+		</action>
+		<!-- BaseDict的Action -->
 		<action name="basedict_*" class="baseDictAction" method="{1}"></action>
 
 		<!-- Customer 的Action -->

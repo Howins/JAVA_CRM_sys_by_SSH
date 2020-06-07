@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 建立类与表的映射 -->
+	<class name="com.demo.bean.LinkMan" table="cst_linkman">
+		<!-- 建立类中的属性与表中的主键对应 ,如果主键名字与属性名字一样，column 不需要写 -->
+		<id name="lkm_id" column="lkm_id" >
+			<!-- 主键生成策略 -->
+			<generator class="native"/>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="lkm_name"  />
+		<property name="lkm_gender"  />
+		<property name="lkm_phone"  />
+		<property name="lkm_mobile"  />
+		<property name="lkm_email"  />
+		<property name="lkm_qq"  />
+		<property name="lkm_position"  />
+		<property name="lkm_memo"  />
+	
+		
+		<!-- 配置客户对字典多对一的映射 -->
+		<many-to-one name="customer" column="lkm_cust_id" class="com.demo.bean.Customer"/>
+	</class>
+</hibernate-mapping>

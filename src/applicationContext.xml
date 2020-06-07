@@ -18,7 +18,19 @@
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
 	</bean>
-	
+	<!-- LinkMan -->
+	<bean id="linkManAction" class="com.demo.web.action.LinkManAction"
+		scope="prototype">
+		<property name="linkManService" ref="linkManService" />
+	</bean>
+	<!-- 配置Service -->
+	<bean id="linkManService" class="com.demo.service.LinkManServiceImpl">
+		<property name="linkManDao" ref="linkManDao" />
+	</bean>
+	<!-- 配置Dao -->
+	<bean id="linkManDao" class="com.demo.dao.impl.LinkManDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 	<!-- 字典相关的类 -->
 	<!-- 配置UerAction -->
 	<bean id="baseDictAction" class="com.demo.web.action.BaseDictAction"

@@ -40,5 +40,6 @@
 		<mapping resource="com/demo/bean/Customer.hbm.xml" />
 		<mapping resource="com/demo/bean/User.hbm.xml" />
 		<mapping resource="com/demo/bean/BaseDict.hbm.xml" />
+		<mapping resource="com/demo/bean/LinkMan.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

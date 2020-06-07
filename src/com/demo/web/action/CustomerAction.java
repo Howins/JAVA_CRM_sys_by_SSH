@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -136,11 +137,38 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		// 接收分页参数
 		// 最好使用DetacheCriteria的对象(带分页的条件查询)
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Customer.class);
+
+		// 设置list.jsp 中的离线查询条件：
+		if (customer.getCust_name() != null && !"".equals(customer.getCust_name())) {
+			detachedCriteria.add(Restrictions.like("cust_name", "%" + customer.getCust_name() + "%"));
+		}
+		if (customer.getBaseDictSource() != null) {
+			if (customer.getBaseDictSource().getDict_id() != null
+					&& !"".equals(customer.getBaseDictSource().getDict_id())) {
+				detachedCriteria
+						.add(Restrictions.eq("baseDictSource.dict_id", customer.getBaseDictSource().getDict_id()));
+			}
+		}
+		if (customer.getBaseDictLevel() != null) {
+			if (customer.getBaseDictLevel().getDict_id() != null
+					&& !"".equals(customer.getBaseDictLevel().getDict_id())) {
+				detachedCriteria
+						.add(Restrictions.eq("baseDictLevel.dict_id", customer.getBaseDictLevel().getDict_id()));
+			}
+		}
+		if (customer.getBaseDictIndustry() != null) {
+			if (customer.getBaseDictIndustry().getDict_id() != null
+					&& !"".equals(customer.getBaseDictIndustry().getDict_id())) {
+				detachedCriteria
+						.add(Restrictions.eq("baseDictIndustry.dict_id", customer.getBaseDictIndustry().getDict_id()));
+			}
+		}
+
 		// 调用业务层查询
 		PageBean<Customer> pageBean = customerService.findByPage(detachedCriteria, currPage, pageSize);
-
 		// List<Customer> list = customerService.findAll();
 		ActionContext.getContext().getValueStack().push(pageBean);
+		//如果没有push 页面也可以拿到值，不过需要model.cust_name, 还需要各种强制转换
 		// ValueStack valueStack = ActionContext.getContext().getValueStack();
 		// valueStack.set("list", pageBean.getList());
 		return "findAllSuccess";
@@ -161,49 +189,49 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		return "deleteSuccess";
 	}
 
-	public String edit(){
+	public String edit() {
 		// 先查询，再修改
-				customer = customerService.findById(customer.getCust_id());
-		//数据传回页面
-				//第一种：手动压栈，页面可以直接使用属性名
-				ActionContext.getContext().getValueStack().push(customer);
-				//第二种，利用模型驱动，啥都不用做，在栈中直接取数据，页面需要通过model.cust_name
-		
+		customer = customerService.findById(customer.getCust_id());
+		// 数据传回页面
+		// 第一种：手动压栈，页面可以直接使用属性名
+		ActionContext.getContext().getValueStack().push(customer);
+		// 第二种，利用模型驱动，啥都不用做，在栈中直接取数据，页面需要通过model.cust_name
+
 		return "editSuccess";
 	}
-	
-	public String update() throws IOException{
-		//如果有照片上传
-		if(upload!=null){
-			//获取照片路径
-			String cust_image=customer.getCust_image();
-			//如果照片是有数据的
-			if(cust_image!=null||!"".equals(cust_image)){
+
+	public String update() throws IOException {
+		// 如果有照片上传
+		if (upload != null) {
+			// 获取照片路径
+			String cust_image = customer.getCust_image();
+			// 如果照片是有数据的
+			if (cust_image != null || !"".equals(cust_image)) {
 				File file = new File(customer.getCust_image());
 				file.delete();
 			}
 			// 设置文件上传的路径
-						String path = "D:/upload";
-						// 如果同名，如何处理？唯一文件名
-						String uuidFileName = UploadUtils.getUuidFileName(uploadFileName);
-						// 如果目录过载，需要文件分离
-						String realPath = UploadUtils.getPath(uuidFileName);
-						// 文件上传的路径
-						String url = path + realPath;
-						File file = new File(url);
-						if (!file.exists()) {
-							// 如果目录不存在
-							file.mkdirs();
-						}
-						// 文件上传
-						File destFile = new File(url + "/" + uuidFileName);
-						FileUtils.copyFile(upload, destFile);
-						customer.setCust_image(url + "/" + uuidFileName);
+			String path = "D:/upload";
+			// 如果同名，如何处理？唯一文件名
+			String uuidFileName = UploadUtils.getUuidFileName(uploadFileName);
+			// 如果目录过载，需要文件分离
+			String realPath = UploadUtils.getPath(uuidFileName);
+			// 文件上传的路径
+			String url = path + realPath;
+			File file = new File(url);
+			if (!file.exists()) {
+				// 如果目录不存在
+				file.mkdirs();
+			}
+			// 文件上传
+			File destFile = new File(url + "/" + uuidFileName);
+			FileUtils.copyFile(upload, destFile);
+			customer.setCust_image(url + "/" + uuidFileName);
 		}
 		customerService.update(customer);
 		return "updateSuccess";
 	}
-	
+
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub

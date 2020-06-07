@@ -1,5 +1,8 @@
 package com.demo.bean;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * CREATE TABLE `cst_customer` ( `cust_id` bigint(32) NOT NULL AUTO_INCREMENT
  * COMMENT '客户编号(主键)', `cust_name` varchar(32) NOT NULL COMMENT '客户名称(公司名称)',
@@ -28,10 +31,11 @@ public class Customer {
 	 * 由于客户与字典是多对一的关系，需要在多的一方放置1的一方的对象
 	 */
 	private BaseDict baseDictSource;
-
-
 	private BaseDict baseDictIndustry;
 	private BaseDict baseDictLevel;
+	
+	//一个客户有多个联系(想要做级联删除，就需要有集合)
+	private Set<LinkMan> linkMans = new HashSet<LinkMan>(); 
 
 	public Customer() {
 		super();
@@ -98,6 +102,12 @@ public class Customer {
 
 	public void setCust_mobile(String cust_mobile) {
 		this.cust_mobile = cust_mobile;
+	}
+	public Set<LinkMan> getLinkMans() {
+		return linkMans;
+	}
+	public void setLinkMans(Set<LinkMan> linkMans) {
+		this.linkMans = linkMans;
 	}
 
 }

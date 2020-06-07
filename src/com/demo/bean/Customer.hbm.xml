@@ -6,23 +6,32 @@
 	<!-- 建立类与表的映射 -->
 	<class name="com.demo.bean.Customer" table="cst_customer">
 		<!-- 建立类中的属性与表中的主键对应 ,如果主键名字与属性名字一样，column 不需要写 -->
-		<id name="cust_id" column="cust_id" >
+		<id name="cust_id" column="cust_id">
 			<!-- 主键生成策略 -->
-			<generator class="native"/>
+			<generator class="native" />
 		</id>
-		
+
 		<!-- 建立类中的普通的属性和表的字段的对应 -->
 		<property name="cust_name" column="cust_name" length="32" />
-		<!-- <property name="cust_source" column="cust_source" length="32"/>
-		<property name="cust_industry" column="cust_industry"/>
-		<property name="cust_level" column="cust_level"/> -->
-		<property name="cust_phone" column="cust_phone"/>
-		<property name="cust_mobile" column="cust_mobile"/>
-		<property name="cust_image" column="cust_image"/>
-		
+		<!-- <property name="cust_source" column="cust_source" length="32"/> <property 
+			name="cust_industry" column="cust_industry"/> <property name="cust_level" 
+			column="cust_level"/> -->
+		<property name="cust_phone" column="cust_phone" />
+		<property name="cust_mobile" column="cust_mobile" />
+		<property name="cust_image" column="cust_image" />
+
 		<!-- 配置客户对字典多对一的映射 -->
-		<many-to-one name="baseDictSource" column="cust_source" class="com.demo.bean.BaseDict"/>
-		<many-to-one name="baseDictIndustry" column="cust_industry" class="com.demo.bean.BaseDict"/>
-		<many-to-one name="baseDictLevel" column="cust_level" class="com.demo.bean.BaseDict"/>
+		<many-to-one name="baseDictSource" column="cust_source"
+			class="com.demo.bean.BaseDict" />
+		<many-to-one name="baseDictIndustry" column="cust_industry"
+			class="com.demo.bean.BaseDict" />
+		<many-to-one name="baseDictLevel" column="cust_level"
+			class="com.demo.bean.BaseDict" />
+
+		<!-- 配置客户对联系人一对多的映射 -->
+		<set name="linkMans">
+			<key column="lkm_cust_id"></key>
+			<one-to-many class="com.demo.bean.LinkMan"/>
+		</set>
 	</class>
 </hibernate-mapping>
