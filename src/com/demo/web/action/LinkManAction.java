@@ -1,9 +1,13 @@
 package com.demo.web.action;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 
+import com.demo.bean.Customer;
 import com.demo.bean.LinkMan;
 import com.demo.bean.PageBean;
+import com.demo.service.CustomerService;
 import com.demo.service.LinkManService;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -38,10 +42,24 @@ public class LinkManAction extends ActionSupport implements ModelDriven<LinkMan>
 		this.pageSize = pageSize;
 	}
 	
+	private CustomerService customerService;
+	
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+	//分页查询所有联系人
 	public String findAll(){
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(LinkMan.class);
 		PageBean<LinkMan> pageBean = linkManService.findByPage(detachedCriteria,currPage,pageSize);
 		ActionContext.getContext().getValueStack().push(pageBean);
 		return "findAllSuccess";
 	}
+	//跳转saveUI
+	public String saveUI(){
+		//实现同步查询所属客户的方法
+		List<Customer> list= customerService.findAll();
+		ActionContext.getContext().getValueStack().set("list", list);
+		return "saveUI";
+	}
+	
 }

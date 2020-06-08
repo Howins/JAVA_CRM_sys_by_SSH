@@ -22,6 +22,7 @@
 	<bean id="linkManAction" class="com.demo.web.action.LinkManAction"
 		scope="prototype">
 		<property name="linkManService" ref="linkManService" />
+		<property name="customerService" ref="customerService" />
 	</bean>
 	<!-- 配置Service -->
 	<bean id="linkManService" class="com.demo.service.LinkManServiceImpl">

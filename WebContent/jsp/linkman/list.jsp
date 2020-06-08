@@ -96,6 +96,7 @@
 													<TD>QQ</TD>
 													<TD>职位</TD>
 													<TD>所属客户</TD>
+													<TD>备注</TD>
 													<TD>操作</TD>
 													
 												</TR>
@@ -110,6 +111,7 @@
 														<TD><s:property value="lkm_qq"/> </TD>
 														<TD><s:property value="lkm_position"/> </TD>
 														<TD><s:property value="customer.cust_name"/> </TD>
+														<TD><s:property value="lkm_memo"/> </TD>
 														
 														<TD><a
 															href="${pageContext.request.contextPath }/linkmanServlet?method=edit&lkmId=${linkman.lkmId}">修改</a>
