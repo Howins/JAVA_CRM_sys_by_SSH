@@ -28,8 +28,8 @@
 		<many-to-one name="baseDictLevel" column="cust_level"
 			class="com.demo.bean.BaseDict" />
 
-		<!-- 配置客户对联系人一对多的映射 -->
-		<set name="linkMans">
+		<!-- 配置客户对联系人一对多的映射 inverse:防止修改客户联系人细信息丢失 ，cascade:级联删除，删除客户，联系人页会被删掉-->
+		<set name="linkMans" inverse="true" cascade="delete">
 			<key column="lkm_cust_id"></key>
 			<one-to-many class="com.demo.bean.LinkMan"/>
 		</set>

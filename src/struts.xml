@@ -20,10 +20,14 @@
 			<result name="login">/login.jsp</result>
 		</global-results>
 
-		<!-- BaseDict的Action -->
+		<!-- linkman_*的Action -->
 		<action name="linkman_*" class="linkManAction" method="{1}">
 		<result name="findAllSuccess">/jsp/linkman/list.jsp</result>
+		<result name="saveSuccess" type="redirectAction">linkman_findAll.action</result>
+		<result name="updateSuccess" type="redirectAction">linkman_findAll.action</result>
+		<result name="deleteSuccess" type="redirectAction">linkman_findAll.action</result>
 		<result name="saveUI">/jsp/linkman/add.jsp</result>
+		<result name="editSuccess">/jsp/linkman/edit.jsp</result>
 		</action>
 		<!-- BaseDict的Action -->
 		<action name="basedict_*" class="baseDictAction" method="{1}"></action>

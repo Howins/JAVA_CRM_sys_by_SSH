@@ -15,7 +15,8 @@
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
-	<s:form id="form1" name="form1" action="${pageContext.request.contextPath }/linkman_save.action" namespace="/" method="post" theme="simple">
+	<s:form id="form1" name="form1" action="linkman_save" namespace="/" method="post" theme="simple">
+	<s:hidden name="lkm_id"/>
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -58,7 +59,7 @@
 								</td>
 								<td>联系人性别：</td>
 								<td>
-								<s:radio list="#{'1':'男','2':'女' }" name="lkm_gender"></s:radio>
+								<s:radio list="#{'男':'男','女':'女' }" name="lkm_gender"></s:radio>
 								
 								</td>
 							</TR>

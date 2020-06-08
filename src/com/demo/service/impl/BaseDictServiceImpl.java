@@ -1,5 +1,6 @@
 package com.demo.service.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.demo.bean.BaseDict;
@@ -14,8 +15,8 @@ public class BaseDictServiceImpl implements BaseDictService {
 	}
 
 	public List<BaseDict> findByTypeCode(String dict_type_code) {
-		
-		return baseDictDao.findByTypeCode(dict_type_code);
+		String codeName = "dict_type_code";
+		return (List<BaseDict>) baseDictDao.findByCode(codeName,dict_type_code);
 	}
 
 }

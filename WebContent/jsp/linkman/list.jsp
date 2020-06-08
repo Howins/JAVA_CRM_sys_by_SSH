@@ -26,7 +26,7 @@
 </HEAD>
 <BODY>
 	<FORM id="customerForm" name="customerForm"
-		action="${pageContext.request.contextPath }/linkmanServlet?method=list"
+		action="${pageContext.request.contextPath }/linkman_findAll.action"
 		method=post>
 
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
@@ -69,9 +69,13 @@
 											<TBODY>
 												<TR>
 													<TD>联系人名称：</TD>
-													<TD><INPUT class=textbox id=sChannel2
-														style="WIDTH: 80px" maxLength=50 name="lkmName"></TD>
-
+													<TD>
+													<s:textfield theme="simple" name="lkm_name" cssClass="textbox" cssStyle="WIDTH: 80px" maxlength="50"/>
+													</TD>
+													<TD>性别：</TD>
+													<TD>
+													<s:select theme="simple" list="#{'男':'男','女':'女' }" name="lkm_gender" headerKey="" headerValue="-请选择-" listKey="cust_id" listValue="cust_name"/>
+													</TD>
 													<TD><INPUT class=button id=sButton2 type=submit
 														value=" 筛选 " name=sButton2></TD>
 												</TR>
@@ -114,9 +118,9 @@
 														<TD><s:property value="lkm_memo"/> </TD>
 														
 														<TD><a
-															href="${pageContext.request.contextPath }/linkmanServlet?method=edit&lkmId=${linkman.lkmId}">修改</a>
+															href="${pageContext.request.contextPath }/linkman_edit.action?lkm_id=<s:property value="lkm_id"/>">修改</a>
 															&nbsp;&nbsp; <a
-															href="${pageContext.request.contextPath }/linkmanServlet?method=delete&lkmId=${linkman.lkmId}">删除</a>
+															href="${pageContext.request.contextPath }/linkman_delete.action?lkm_id=<s:property value="lkm_id"/>">删除</a>
 														</TD>
 													</TR>
 
@@ -131,17 +135,39 @@
 									<TD><SPAN id=pagelink>
 											<DIV
 												style="LINE-HEIGHT: 20px; HEIGHT: 20px; TEXT-ALIGN: right">
-												共[<B>${total}</B>]条记录,[<B>${totalPage}</B>]页 ,每页显示 <select
-													name="pageSize">
+												共[<B><s:property value="totalRecord" /></B>]条记录,[<B><s:property
+														value="totalPage" /></B>]页 ,每页显示 <select name="pageSize"
+													onchange="to_page()">
 
-													<option value="1"
-														<c:if test="${pageSize==1 }">selected</c:if>>1</option>
-													<option value="30"
-														<c:if test="${pageSize==30 }">selected</c:if>>30</option>
-												</select> 条 [<A href="javascript:to_page(${page-1})">前一页</A>] <B>${page}</B>
-												[<A href="javascript:to_page(${page+1})">后一页</A>] 到 <input
-													type="text" size="3" id="page" name="page" /> 页 <input
-													type="button" value="Go" onclick="to_page()" />
+													<option value="3" <s:if test="pageSize==3">selected</s:if>>3</option>
+													<option value="5" <s:if test="pageSize==5">selected</s:if>>5</option>
+													<option value="10"
+														<s:if test="pageSize==10">selected</s:if>>10</option>
+												</select> 条
+												<s:if test="currPage!=1">
+												[<A href="javascript:to_page(1)">首页</A>]
+												[<A
+														href="javascript:to_page(<s:property value="currPage-1" />)">前一页</A>]
+												</s:if>
+												&nbsp;&nbsp; <B> <s:iterator var="i" begin="1"
+														end="totalPage">
+														<s:if test="#i==currPage">
+															<s:property value="#i" />
+														</s:if>
+														<s:else>
+															<a href="javascript:to_page(<s:property value="#i" />)"><s:property
+																	value="#i" /></a>
+														</s:else>
+													</s:iterator>
+												</B>&nbsp;&nbsp;
+												<s:if test="currPage!=totalPage">
+												[<A
+														href="javascript:to_page(<s:property value="currPage+1" />)">后一页</A>] 
+												[<A
+														href="javascript:to_page(<s:property value="totalPage" />)">尾页</A>] 
+												</s:if>
+												到 <input type="text" size="3" id="page" name="currPage" />
+												页 <input type="button" value="Go" onclick="to_page()" />
 											</DIV>
 									</SPAN></TD>
 								</TR>

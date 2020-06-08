@@ -3,11 +3,13 @@ package com.demo.service;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.bean.LinkMan;
 import com.demo.bean.PageBean;
 import com.demo.dao.LinkManDao;
 
+@Transactional
 public class LinkManServiceImpl implements LinkManService {
 
 	private LinkManDao linkManDao;
@@ -22,7 +24,7 @@ public class LinkManServiceImpl implements LinkManService {
 		pageBean.setCurrPage(currPage);
 		pageBean.setPageSize(pageSize);
 		// 获取总记录数
-		Integer totalRecord = linkManDao.findCount(detachedCriteria);
+		Integer totalRecord = linkManDao.findRecord(detachedCriteria);
 		Double tr = totalRecord.doubleValue();
 		pageBean.setTotalRecord(totalRecord);
 		// 获取总页数
@@ -35,4 +37,22 @@ public class LinkManServiceImpl implements LinkManService {
 		pageBean.setList(list);
 		return pageBean;
 	}
+
+	public void save(LinkMan linkMan) {
+		linkManDao.add(linkMan);
+	}
+
+	public LinkMan findById(Long lkm_id) {
+		return linkManDao.findById(lkm_id);
+
+	}
+
+	public void update(LinkMan linkMan) {
+		linkManDao.update(linkMan);
+	}
+
+	public void delete(LinkMan linkMan) {
+		linkManDao.delete(linkMan);
+	}
+
 }
