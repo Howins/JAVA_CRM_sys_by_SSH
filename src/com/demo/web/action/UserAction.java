@@ -1,5 +1,8 @@
 package com.demo.web.action;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -10,6 +13,9 @@ import com.demo.service.impl.UserServiceImpl;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 public class UserAction extends ActionSupport implements ModelDriven<User> {
 
@@ -63,6 +69,15 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 			this.addActionError("用户名已存在，请重新注册！！！");
 			return "regist";
 		} 
+	}
+	
+	public String findAllUser() throws IOException{
+		List<User> list =userService.findAll();
+		//设置到Json
+		JSONArray jsonArray = JSONArray.fromObject(list);
+		ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+		ServletActionContext.getResponse().getWriter().println(jsonArray.toString());
+		return NONE;
 	}
 	
 }

@@ -2,7 +2,9 @@ package com.demo.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
@@ -11,7 +13,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.demo.bean.BaseDict;
 import com.demo.bean.Customer;
+import com.demo.bean.LinkMan;
 import com.demo.bean.PageBean;
 import com.demo.service.CustomerService;
 import com.demo.service.impl.CustomerServiceImpl;
@@ -20,6 +24,9 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.util.ValueStack;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 /**
  * Customer Managerment class
@@ -232,6 +239,16 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		return "updateSuccess";
 	}
 
+public String findAllCustomer() throws IOException{
+	List<Customer> list = customerService.findAll();
+	//将List 转json
+	JsonConfig jsCfg = new JsonConfig();
+	jsCfg.setExcludes(new String[]{"cust_phone","cust_mobile","cust_image","baseDictSource","baseDictIndustry","baseDictLevel","linkMans"});
+	JSONArray jsonArray = JSONArray.fromObject(list, jsCfg);
+	ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+	ServletActionContext.getResponse().getWriter().println(jsonArray.toString());
+	return NONE;
+}
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub

@@ -31,7 +31,12 @@
 		</action>
 		<!-- BaseDict的Action -->
 		<action name="basedict_*" class="baseDictAction" method="{1}"></action>
-
+		<!-- SaleVisit的Action -->
+		<action name="saleVisit_*" class="saleVisitAction" method="{1}">
+		<result name="findSuccess">/jsp/salevisit/list.jsp</result>
+		<result name="addUI">/jsp/salevisit/add.jsp</result>
+		<result name="saveSuccess" type="redirectAction">saleVisit_findAll.action</result>
+		</action>
 		<!-- Customer 的Action -->
 		<action name="customer_*" class="customerAction" method="{1}">
 			<result name="findAllSuccess">/jsp/customer/list.jsp</result>

@@ -1,4 +1,4 @@
-package com.demo.service;
+package com.demo.service.impl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.demo.bean.LinkMan;
 import com.demo.bean.PageBean;
 import com.demo.dao.LinkManDao;
+import com.demo.service.LinkManService;
 
 @Transactional
 public class LinkManServiceImpl implements LinkManService {

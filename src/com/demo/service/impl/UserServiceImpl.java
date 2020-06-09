@@ -1,5 +1,7 @@
 package com.demo.service.impl;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.bean.User;
@@ -24,6 +26,10 @@ public class UserServiceImpl implements UserService {
 	public boolean regist(User user) {
 		user.setUser_password(MD5Utils.md5(user.getUser_password()));
 		return userDao.regist(user);
+	}
+
+	public List<User> findAll() {
+		return userDao.findAll();
 	}
 
 }

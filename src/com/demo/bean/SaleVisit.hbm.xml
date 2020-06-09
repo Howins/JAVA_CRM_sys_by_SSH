@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 建立类与表的映射 -->
+	<class name="com.demo.bean.SaleVisit" table="sale_visit">
+		<!-- 建立类中的属性与表中的主键对应 ,如果主键名字与属性名字一样，column 不需要写 -->
+		<id name="visit_id" column="visit_id" >
+			<!-- 主键生成策略 -->
+			<generator class="uuid"/>
+		</id>
+		
+		<!-- 建立类中的普通的属性和表的字段的对应 -->
+		<property name="visit_time" />
+		<property name="visit_addr" />
+		<property name="visit_detail" />
+		<property name="visit_nexttime" />
+		<!-- 配置与客户、用户的关联关系 -->
+		<many-to-one name="customer" column="visit_cust_id" class="com.demo.bean.Customer" />
+		<many-to-one name="user" column="visit_user_id" class="com.demo.bean.User" />
+	</class>
+</hibernate-mapping>
